@@ -1,0 +1,51 @@
+/* FONTS */
+@import 'https://fonts.googleapis.com/css?family=Rubik';
+
+section h1, h2, h3, h4, p, a, button {
+	font-family: 'Rubik', sans-serif;
+}
+
+/* SECTIONS */
+body {
+	margin: 0;
+}
+
+section {
+	padding: 1em;
+}
+
+section.banner-top {
+	position: absolute;
+	width: 100%;
+	height: 20px;
+	/*padding: 2px;*/
+}
+
+	section.banner-top p {
+		margin: 0;
+	}
+
+section.welcome {
+	height: 100vh;
+	color: #fff;
+	text-align: center;
+	background-color: #F46036;
+}
+
+section.main {
+	height: 100vh;
+}
+
+/* MODS */
+
+.BTN-START {
+	display: none;
+	outline: 0;
+}
+
+.btn-primary {
+	background-color: transparent;
+	border: 4px solid #c74e2b;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}

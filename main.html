@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Learn English - from Hebrew</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="resources/loadie.js/css/loadie.css">
+
+    <!-- REACT.JS -->
+    <script src="resources/react/react.js"></script>
+    <script src="resources/react/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+
+    <!-- OTHER IMPORTS -->
+    <script src="resources/loadie.js/js/jquery.min.js"></script>
+    <script src="resources/loadie.js/js/jquery.loadie.min.js"></script>
+    <script src="resources/easing.js/jquery.easing.1.3.js"></script>
+
+    <!-- APP -->
+    <script src="app.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+
+  </head>
+  <body>
+    <section class="banner-top">
+    </section>
+
+    <section class="welcome">
+      <div class="container">
+      
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="authorize-div" style="display: none">
+              <span>Authorize access to Google Sheets API</span>
+              <!--Button for the user to click to initiate auth sequence -->
+              <button id="authorize-button" onclick="handleAuthClick(event)">
+                Authorize
+              </button>
+            </div>
+
+            <div id="example"></div>
+          </div>
+        </div> <!-- .row -->
+
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <h2>Welcome to Learning English If You Know Hebrew.</h2>
+            <div class="col-md-4 col-md-offset-4">
+              <button class="btn btn-primary btn-block btn-lg BTN-START">Let's Learn!</button>
+            </div>
+          </div>
+        </div> <!-- .row -->
+
+      </div> <!-- .container -->
+    </section>
+
+    <section class="main">
+    </section>
+
+    <script type="text/babel">
+
+      ReactDOM.render(
+        <h1>שלום</h1>,
+        document.getElementById('main')
+      );
+    </script>
+  </body>
+</html>
