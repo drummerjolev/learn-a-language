@@ -94,7 +94,7 @@ function getWordsFromSheet() {
     if (range.values.length > 0) {
       // save words to global variable
       WORDS = range.values;
-      console.log(WORDS);
+
       $(LOADING_CONTAINER).loadie(1);
       $(".BTN-START").fadeIn("slow");
       bindAfterLoad();
@@ -123,47 +123,38 @@ function appendPre(message) {
 /* EVENT LISTENERS, bound after successful API response
 */
 function bindAfterLoad() {
-  // button click
-  $(".BTN-START").on("click", function(event) {
-    // welcome fades out, callback launches app
-    $("section.welcome").fadeOut(700, "easeOutQuad", function() {
-      getQuiz(2);
+  $(document).ready(function() {
+    // button click
+    $(".BTN-START").on("click", function(event) {
+      // welcome fades out, callback launches app
+      $("section.welcome").fadeOut(700, "easeOutQuad", function() {
+        handleQuizRound();
+      });
     });
   });
 }
 
-// based on this great article:
-// https://bost.ocks.org/mike/shuffle/
-function shuffleArray(array) {
-  var currentIndex = array.length;
-  var j;
-  var k;
+// render question
+// handle points on response
+// destroy question and render next on success
 
-  while (currentIndex > 0) {
-    j = Math.floor(Math.random() * currentIndex--);
-    k = array[currentIndex];
-    array[currentIndex] = array[j];
-    array[j] = k;
+function handleQuizRound() {
+  var currentQuiz = getQuiz(10);
+  var quizLength = currentQuiz.length;
+  var globalScore = 0;
+
+  loadCurrentQuiz(currentQuiz);
+
+  for (var i = 0; i < quizLength; i++) {
   }
+
 }
 
-function arrayContains(array,obj) {
-  var i = array.length - 1;
-  while (i >= 0) {
-    if (array[i] === obj) {
-      return true;
-    }
-    i--;
-  }
-  return false;
-}
-
-function setQuizObject(originalWord,translatedWord,wrongTranslation1,wrongTranslation2) {
+function setQuizObject(originalWord,translatedWord,wrongTranslatedWords) {
   var quizObject = {
     word: originalWord,
     translation: translatedWord,
-    wrongChoice1: wrongTranslation1,
-    wrongChoice2: wrongTranslation2,
+    wrongTranslations: wrongTranslatedWords,
     score: 0
   }
   return quizObject;
@@ -186,16 +177,16 @@ function getQuiz(quizLength) {
   shuffleArray(wordsToShuffle);
 
   for (var i = 0; i < quizLength; i++) {
-    // contains indeces of random (wrong) choices, type [Int]
-    var indexContainer = []
-    while(indexContainer.length < 2) {
+    // contains random (wrong) choices, type [Int]
+    var wrongChoicesContainer = []
+    while(wrongChoicesContainer.length < 2) {
       var randomNumber = Math.floor(Math.random() * WORDS.length);
-      if (randomNumber != i && !arrayContains(indexContainer,randomNumber)) {
-        indexContainer.push(randomNumber);
+      if (randomNumber != i && !arrayContains(wrongChoicesContainer,wordsToShuffle[randomNumber][1])) {
+        wrongChoicesContainer.push(wordsToShuffle[randomNumber][1]);
       }
     }
-    var currentQuizObject = setQuizObject(wordsToShuffle[i][0],wordsToShuffle[i][1],wordsToShuffle[indexContainer[0]][1],wordsToShuffle[indexContainer[1]][1])
+    var currentQuizObject = setQuizObject(wordsToShuffle[i][0],wordsToShuffle[i][1],wrongChoicesContainer);
     quizContainer.push(currentQuizObject);
   }
-  console.log(quizContainer);
+  return quizContainer;
 }

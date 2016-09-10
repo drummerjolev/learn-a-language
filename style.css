@@ -14,6 +14,15 @@ section {
 	padding: 1em;
 }
 
+div.fullscreen-flasher {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	z-index: 1000;
+	background-color: transparent;
+	display: none;
+}
+
 section.banner-top {
 	position: absolute;
 	width: 100%;
@@ -35,6 +44,28 @@ section.welcome {
 section.main {
 	height: 100vh;
 }
+
+	section.main div.questionContainer {
+		text-align: center;
+	}
+
+		section.main div.questionContainer div.originalWord {
+			padding: 3em;
+		}
+
+		section.main div.questionContainer div.responseChoices ul {
+			padding: 1em;
+			list-style: none;
+		}
+
+			section.main div.questionContainer div.responseChoices ul li {
+				padding: 1em;
+				cursor: pointer;
+			}
+
+			section.main div.questionContainer div.responseChoices ul li:hover {
+				color: #F46036;
+			}
 
 /* MODS */
 
