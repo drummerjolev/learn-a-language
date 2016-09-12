@@ -33,20 +33,22 @@
                 }
             }
         }
-        
-        // set original word
-        var originalWordContainer = $("section.main div.questionContainer div.originalWord")[0];
-        var Question = React.createClass({
+
+        // recreate array of wrong choices + correct choice
+        var wordsToDisplay = quiz[counter].wrongTranslations;
+        wordsToDisplay.push(quiz[counter].translation);
+        shuffleArray(wordsToDisplay);
+
+        // React Components
+        // Parent node at the bottom, children nodes need to be declared first
+        var OriginalWord = React.createClass({
             render: function() {
                 return (
                 <h1>{this.props.word}</h1>
                 );
             }
         });
-        ReactDOM.render(<Question word={quiz[counter].word} />, originalWordContainer);
 
-        // set response choices
-        var responseWordContainer = $("section.main div.questionContainer div.responseChoices")[0];
         var Responses = React.createClass({
             render: function() {
                 var currentItem = 0;
@@ -57,12 +59,25 @@
             }
         });
 
-        // recreate array of wrong choices + correct choice
-        var wordsToDisplay = quiz[counter].wrongTranslations;
-        wordsToDisplay.push(quiz[counter].translation);
-        shuffleArray(wordsToDisplay);
+        // controls children: the original word and the response choices.
+        var Question = React.createClass({
+            render: function() {
+                return (
+                    <div>
+                        <div className="originalWord">
+                            <OriginalWord word={this.props.quizOriginalWord} />
+                        </div>
+                        <div className="responseChoices">
+                            <Responses items={this.props.quizItems} />
+                        </div>
+                    </div>
+                );
+            }
+        });
 
-        ReactDOM.render(<Responses items={wordsToDisplay} />, responseWordContainer);
+        // render all React components
+        var questionContainer = $("section.main div.questionContainer")[0];
+        ReactDOM.render(<Question quizOriginalWord={quiz[counter].word} quizItems={wordsToDisplay} />, questionContainer);
     }
 
 }) ();// React Helper functions used by app.js
