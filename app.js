@@ -29,9 +29,11 @@ function displayPreviousRoundScore() {
   // TODO: handle NaN case
 
   if (maxScore && currentScore) {
+    if (percentageScore.toLowerCase() == "nan%") {
+      percentageScore = "Keep trying"
+    }
     $("div.result-container h1").text(percentageScore);
     $("div.result-container").fadeIn('600');
-
     $(".BTN-NEW-ROUND").on('click', function(event) {
       window.location.replace(removeUrlParameters(window.location.href));
     });

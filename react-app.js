@@ -61,9 +61,10 @@
                 var currentWord = quiz[this.state.counter];
                 // scores are hard coded (max. 3, min. 1)
                 if (response === currentWord.translation) {
+                    responsiveVoice.speak(currentWord.translation);
                     if (currentWord.score <= 0) {
                         currentWord.score += 3;
-                        this.handleStateChange();
+                        setTimeout(this.handleStateChange, 1000);
                     }
                 } else {
                     flashHtmlElement(".fullscreen-flasher");
