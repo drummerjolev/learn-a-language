@@ -19,21 +19,43 @@ init();
 
 function init() {
   $(LOADING_CONTAINER).loadie();
+}
 
-  console.log('init launched');
+function displayPreviousRoundScore() {
+  var maxScore = extractUrlParameter(window.location.href,'maxscore');
+  var currentScore = extractUrlParameter(window.location.href,'score');
+  var percentageScore = ((currentScore / maxScore) * 100).toFixed(1) + "%";
+
+  // TODO: handle NaN case
+
+  if (maxScore && currentScore) {
+    $("div.result-container h1").text(percentageScore);
+    $("div.result-container").fadeIn('600');
+
+    $(".BTN-NEW-ROUND").on('click', function(event) {
+      window.location.replace(removeUrlParameters(window.location.href));
+    });
+
+    return true;
+  } else {
+    $("div.welcome-container").fadeIn('600');
+    return false;
+  }
 }
 
 /**
  * Check if current user has authorized this application.
  */
 function checkAuth() {
-  gapi.auth.authorize(
-    {
-      'client_id': CLIENT_ID,
-      'scope': SCOPES.join(' '),
-      'immediate': true
-    }, handleAuthResult);
-  $(LOADING_CONTAINER).loadie(0.3);
+  if (!displayPreviousRoundScore()) {
+    gapi.auth.authorize(
+      {
+        'client_id': CLIENT_ID,
+        'scope': SCOPES.join(' '),
+        'immediate': true
+      }, handleAuthResult);
+    $(LOADING_CONTAINER).loadie(0.3);
+  }
 }
 
 /**

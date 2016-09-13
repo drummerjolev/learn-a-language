@@ -34,3 +34,33 @@ function flashHtmlElement(backgroundElement) {
         });
     });
 }
+
+function extractUrlParameter(url,parameter) {
+  var parameterString = url.split('?');
+
+  if (parameterString.length == 2) {
+    parameterString = parameterString[1];
+    var parameterListFromString = parameterString.split('&');
+
+    if (parameterListFromString.length) {
+      for (var i = 0; i < parameterListFromString.length; i++) {
+        var currentParameter = parameterListFromString[i].split('=');
+        
+        if (currentParameter.length == 2) {
+          if (currentParameter[0].toLowerCase() === parameter.toLowerCase()) {
+            return currentParameter[1];
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function removeUrlParameters(url) {
+  var parameterString = url.split('?');
+  if (parameterString.length == 2) {
+    return parameterString[0];
+  } 
+  return null;
+}

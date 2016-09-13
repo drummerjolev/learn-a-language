@@ -51,6 +51,7 @@
                     for (var i = 0; i < quiz.length; i++) {
                         finalScore += quiz[i].score;
                     }
+                    // redirect to home page with parameters
                     window.location.replace(window.location.href + "?score=" + finalScore + "&maxScore=" + quiz.length*3);
                 }
             },
@@ -73,7 +74,6 @@
             },
 
             render: function() {
-                console.log(quiz[this.state.counter]);
                 return (
                     <div>
                         <div className="originalWord">

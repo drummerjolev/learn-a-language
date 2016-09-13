@@ -24,7 +24,7 @@
     <script type="text/babel" src="react-app.js"></script>
     <script src="app.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">
-    </script>
+    </script> 
 
   </head>
   <body>
@@ -36,27 +36,33 @@
 
     <section class="welcome">
       <div class="container">
-      
+
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="welcome-container">
+              <h2 class="welcome-message">Welcome to Learning English If You Know Hebrew.</h2>
+              <div class="col-md-4 col-md-offset-4">
+                <button class="btn btn-primary btn-block btn-lg BTN-START">Let's Learn!</button>
+              </div>
+            </div> <!-- .welcome-container -->
+
+            <div class="result-container">
+              <h1><!-- computed value inserted by app.js --></h1>
+              <button class="btn btn-primary btn-lg BTN-NEW-ROUND">Start over</button>
+            </div>
+          </div> <!-- .result-container -->
+        </div> <!-- .row -->
+
         <div class="row">
           <div class="col-md-6 col-md-offset-3">
             <div id="authorize-div" style="display: none">
-              <span>Authorize access to Google Sheets API</span>
               <!--Button for the user to click to initiate auth sequence -->
-              <button id="authorize-button" onclick="handleAuthClick(event)">
-                Authorize
+              <button class="btn btn-primary btn-lg" id="authorize-button" onclick="handleAuthClick(event)">
+                Login with Google
               </button>
             </div>
 
             <div id="example"></div>
-          </div>
-        </div> <!-- .row -->
-
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-            <h2>Welcome to Learning English If You Know Hebrew.</h2>
-            <div class="col-md-4 col-md-offset-4">
-              <button class="btn btn-primary btn-block btn-lg BTN-START">Let's Learn!</button>
-            </div>
           </div>
         </div> <!-- .row -->
 
@@ -68,11 +74,12 @@
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
             <div class="questionContainer">
-              <!-- content inside div rendered by React -->
+              <!-- content inside div rendered by react-app.js -->
             </div> <!-- .questionContainer -->
           </div>
         </div> <!-- .row -->
       </div> <!-- .container -->
     </section>
+
   </body>
 </html>

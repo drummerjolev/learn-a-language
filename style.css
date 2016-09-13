@@ -70,6 +70,18 @@ section.main {
 			}
 
 /* MODS */
+div.welcome-container, div.result-container {
+	display: none;
+}
+
+	div.result-container h1 {
+		font-size: 8em;
+		padding: 1em;
+	}
+
+	div.result-container h2 {
+		padding-bottom: 1em;
+	}
 
 .BTN-START {
 	display: none;
