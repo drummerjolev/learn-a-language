@@ -3,41 +3,8 @@
     // API: used by app.js
     window.loadCurrentQuiz = loadCurrentQuiz;
 
-    function flashHtmlElement(backgroundElement) {
-        var flasher = $(backgroundElement);
-        flasher.fadeIn(50, function() {
-            flasher.fadeOut(300, function() {
-            });
-        });
-    }
-
-    function loadCurrentQuiz(quiz,counter) {
+    function loadCurrentQuiz(quiz) {
         // TODO: add case for empty quiz
-
-        // init counter to 0 if called for the first time
-        if (counter == null) {
-            counter = 0;
-        }
-
-        // current score init to max (3), wrong choices modify number
-        var currentWordScore = 3;
-
-        // handle response choice from user input
-        var handleClick = function (a) {
-            if (a === quiz[counter].translation) {
-                quiz[counter].score = currentWordScore;
-            } else {
-                flashHtmlElement(".fullscreen-flasher");
-                if (currentWordScore > 0) {
-                    currentWordScore--;
-                }
-            }
-        }
-
-        // recreate array of wrong choices + correct choice
-        var wordsToDisplay = quiz[counter].wrongTranslations;
-        wordsToDisplay.push(quiz[counter].translation);
-        shuffleArray(wordsToDisplay);
 
         // React Components
         // Parent node at the bottom, children nodes need to be declared first
@@ -52,8 +19,9 @@
         var Responses = React.createClass({
             render: function() {
                 var currentItem = 0;
+                var handleResponse = this.props.handleResponse;
                 var createResponseItem = function (item) {
-                    return <li onClick={handleClick.bind(this,item)} key={currentItem++}><h2>{item}</h2></li>;
+                    return <li onClick={handleResponse.bind(null,item)} key={currentItem++}><h2>{item}</h2></li>;
                 };
                 return <ul>{this.props.items.map(createResponseItem)}</ul>
             }
@@ -61,14 +29,58 @@
 
         // controls children: the original word and the response choices.
         var Question = React.createClass({
+
+            getInitialState: function() {
+                return { counter: 0 };
+            },
+
+            getCurrentResponseChoices: function() {
+                var currentWord = quiz[this.state.counter];
+                var wordsToDisplay = currentWord.wrongTranslations;
+                wordsToDisplay.push(currentWord.translation);
+                return shuffleArray(wordsToDisplay);
+            },
+
+            handleStateChange: function() {
+                if (this.state.counter < quiz.length - 1) {
+                    this.setState(function(previousState) {
+                        return { counter: previousState.counter + 1};
+                    });
+                } else {
+                    var finalScore = 0;
+                    for (var i = 0; i < quiz.length; i++) {
+                        finalScore += quiz[i].score;
+                    }
+                    window.location.replace(window.location.href + "?score=" + finalScore + "&maxScore=" + quiz.length*3);
+                }
+            },
+
+            // handle response choice from user input
+            handleClick: function (response) {
+                var currentWord = quiz[this.state.counter];
+                // scores are hard coded (max. 3, min. 1)
+                if (response === currentWord.translation) {
+                    if (currentWord.score <= 0) {
+                        currentWord.score += 3;
+                        this.handleStateChange();
+                    }
+                } else {
+                    flashHtmlElement(".fullscreen-flasher");
+                    if (currentWord.score > -2) {
+                        currentWord.score--;
+                    }
+                }
+            },
+
             render: function() {
+                console.log(quiz[this.state.counter]);
                 return (
                     <div>
                         <div className="originalWord">
-                            <OriginalWord word={this.props.quizOriginalWord} />
+                            <OriginalWord word={quiz[this.state.counter].word} />
                         </div>
                         <div className="responseChoices">
-                            <Responses items={this.props.quizItems} />
+                            <Responses handleResponse={this.handleClick} items={this.getCurrentResponseChoices()} />
                         </div>
                     </div>
                 );
@@ -77,7 +89,7 @@
 
         // render all React components
         var questionContainer = $("section.main div.questionContainer")[0];
-        ReactDOM.render(<Question quizOriginalWord={quiz[counter].word} quizItems={wordsToDisplay} />, questionContainer);
+        ReactDOM.render(<Question />, questionContainer);
     }
 
 }) ();// React Helper functions used by app.js

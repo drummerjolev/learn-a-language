@@ -19,6 +19,7 @@ init();
 
 function init() {
   $(LOADING_CONTAINER).loadie();
+
   console.log('init launched');
 }
 
@@ -143,6 +144,7 @@ function handleQuizRound() {
   var quizLength = currentQuiz.length;
   var globalScore = 0;
 
+  $("section.main").show();
   loadCurrentQuiz(currentQuiz);
 
   for (var i = 0; i < quizLength; i++) {

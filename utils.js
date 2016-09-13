@@ -13,6 +13,7 @@ function shuffleArray(array) {
     array[currentIndex] = array[j];
     array[j] = k;
   }
+  return array;
 }
 
 function arrayContains(array,obj) {
@@ -24,4 +25,12 @@ function arrayContains(array,obj) {
     i--;
   }
   return false;
+}
+
+function flashHtmlElement(backgroundElement) {
+    var flasher = $(backgroundElement);
+    flasher.fadeIn(50, function() {
+        flasher.fadeOut(300, function() {
+        });
+    });
 }
